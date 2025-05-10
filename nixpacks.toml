@@ -4,8 +4,5 @@ cmds = ["python -m pip install --upgrade pip", "python -m pip install -r require
 [phases.setup]
 nixPkgs = ["python310", "gcc", "python310Packages.pip"]
 
-[providers]
-python = true
-
 [start]
-cmd = "python model_api.py"
+cmd = "python model_api.py"  # Don't use uvicorn directly
