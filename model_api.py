@@ -146,7 +146,7 @@ async def predict_csv(
         raise HTTPException(status_code=400, detail="Only CSV files are allowed")
     
     # Limit file size (10MB)
-    MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
+    MAX_FILE_SIZE = 100 * 1024 * 1024  # 10MB
     
     try:
         # Read file with size limit
