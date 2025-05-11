@@ -111,7 +111,7 @@ async def root():
     return {
         "status": "online",
         "model": model_status,
-        "message": "DDOS Detection API is running. Use X-API-Key header for authentication."
+        "message": "DDOS Detection API is running. HIDUP JOKOWII !!!"
     }
 
 # Health check endpoint
