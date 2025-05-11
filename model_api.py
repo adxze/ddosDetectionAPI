@@ -10,6 +10,7 @@ import traceback
 import hashlib
 import secrets
 from typing import Optional
+import sys
 
 # Create FastAPI app
 app = FastAPI(title="DDOS Detection API", description="Simplified secure API for detecting network intrusions")
