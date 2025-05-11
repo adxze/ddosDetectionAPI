@@ -13,6 +13,10 @@ from typing import Optional
 import sys
 import requests
 
+# Handle numpy version compatibility
+if not hasattr(np, '_core'):
+    np._core = sys.modules.get('numpy.core')
+
 # Create FastAPI app
 app = FastAPI(title="DDOS Detection API", description="Simplified secure API for detecting network intrusions")
 
