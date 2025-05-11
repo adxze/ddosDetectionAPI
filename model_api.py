@@ -11,6 +11,7 @@ import hashlib
 import secrets
 from typing import Optional
 import sys
+import requests
 
 # Create FastAPI app
 app = FastAPI(title="DDOS Detection API", description="Simplified secure API for detecting network intrusions")
@@ -29,15 +30,39 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Add this at the very beginning, before loading the model
+# Google Drive download functions
+def download_file_from_google_drive(file_id, destination):
+    """Download a file from Google Drive using its file ID"""
+    URL = "https://docs.google.com/uc?export=download&confirm=1"
+    
+    session = requests.Session()
+    response = session.get(URL, params={'id': file_id}, stream=True)
+    
+    # Save the file
+    CHUNK_SIZE = 32768
+    with open(destination, "wb") as f:
+        for chunk in response.iter_content(CHUNK_SIZE):
+            if chunk:
+                f.write(chunk)
+
+# Check and download model if needed
 print("Python version:", sys.version)
 print("Current directory:", os.getcwd())
 print("Files in current directory:", os.listdir('.'))
 print("Looking for model.pkl...")
-if os.path.exists('model.pkl'):
-    print("model.pkl exists! Size:", os.path.getsize('model.pkl'), "bytes")
+
+# Google Drive file ID from your link
+GOOGLE_DRIVE_FILE_ID = "1uG8OB_mRvt56qO1V8DmaApAn2y6BuGEG"
+
+if not os.path.exists('model.pkl') or os.path.getsize('model.pkl') < 1000:
+    print("Model file missing or too small (Git LFS pointer). Downloading from Google Drive...")
+    try:
+        download_file_from_google_drive(GOOGLE_DRIVE_FILE_ID, 'model.pkl')
+        print(f"Model downloaded successfully! Size: {os.path.getsize('model.pkl')} bytes")
+    except Exception as e:
+        print(f"Error downloading model: {str(e)}")
 else:
-    print("model.pkl NOT FOUND!")
+    print(f"model.pkl exists! Size: {os.path.getsize('model.pkl')} bytes")
 
 # Load AI model
 try:
