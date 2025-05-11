@@ -28,6 +28,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Add this at the very beginning, before loading the model
+print("Python version:", sys.version)
+print("Current directory:", os.getcwd())
+print("Files in current directory:", os.listdir('.'))
+print("Looking for model.pkl...")
+if os.path.exists('model.pkl'):
+    print("model.pkl exists! Size:", os.path.getsize('model.pkl'), "bytes")
+else:
+    print("model.pkl NOT FOUND!")
+
 # Load AI model
 try:
     model_tuple = joblib.load('model.pkl')
